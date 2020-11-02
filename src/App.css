@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+
+.story-div {
+  margin-bottom: 40px;
+}
+
+.comment-text {
+  background: lightgoldenrodyellow;
+  font-size: 12px;
+  font-family: inherit;
+}
