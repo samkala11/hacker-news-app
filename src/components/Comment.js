@@ -1,12 +1,15 @@
 import React, {useEffect, useState} from 'react';
+import arrow from '../arrow.png';
 
 import {getStory} from '../utils/stories_api_util';
 import CommentsContainer from './CommentsContainer';
+import { convertTime } from '../utils/time';
+
 
 const Comment = ({commentId, level}) => {
 
     const [commentInfo, setCommentInfo] = useState({});
-    const [showComments, setShowComments] = useState(false);
+    const [showComments, setShowComments] = useState(true);
 
     useEffect(() => {
 
@@ -20,7 +23,7 @@ const Comment = ({commentId, level}) => {
     const getCommentStyle = () => {
 
         return {
-            'margin-left': `${level * 30}px`
+            'margin-left': `${level * 10}px`
         }
     }
 
@@ -33,10 +36,22 @@ const Comment = ({commentId, level}) => {
     return(
         <div style ={getCommentStyle()} >
 
-            <div className="comment-text"> {commentInfo.text} </div>
-            <div> By: {commentInfo.by} </div>
-            <div> Comment Id: {commentId} </div>
-            <div onClick={handleShowComments}> Comments to this comment: {  commentInfo.kids ? commentInfo.kids.length : null }</div>
+
+
+            <div className="comment-by"> 
+                <img  className="arrow-icon" src={arrow}/>
+                {commentInfo.by} {convertTime(commentInfo.time)} ago
+            </div>
+
+            <div className="comment-text">
+                {commentInfo.text}
+            </div>
+
+            <div className="comment-info">        
+                {  commentInfo.kids && <div className="comments-number" onClick={handleShowComments}>  {  commentInfo.kids ? commentInfo.kids.length : null } comments</div>
+                }
+                
+            </div>
 
             <div className="comments-container">  
                 {showComments && commentInfo.kids && <CommentsContainer 

@@ -19,3 +19,13 @@ export const getStory = (storyId) => (
     })
 );
       
+export const getUpdatedStories = () => (
+    $.ajax({
+        method: 'GET',
+        url: 'https://hacker-news.firebaseio.com/v0/updates.json',
+        error: (err) => console.log(err)
+    })
+);
+      
+
+

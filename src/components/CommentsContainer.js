@@ -7,11 +7,11 @@ import Comment from './Comment';
 const CommentsContainer = ({commentIds, level}) => {
 
     return (
-        commentIds.map(commentId => (
-            <div key={commentId} className="story-div">
-                <Comment commentId={commentId} level={level}/>
-            </div> 
-        ))
+        <div className="comment-container">
+            {commentIds.map(commentId => (
+                <Comment  key={commentId} commentId={commentId} level={level}/>
+            ))}
+        </div> 
     )
 
 }

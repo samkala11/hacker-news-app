@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
 }
 
 .App-logo {
@@ -39,11 +39,127 @@
 
 
 .story-div {
-  margin-bottom: 40px;
+  border-bottom: 1px solid lightgray;
+  padding-top: 6px;
+  padding-bottom: 18px;
 }
 
 .comment-text {
   background: lightgoldenrodyellow;
   font-size: 12px;
   font-family: inherit;
+  /* width: 90%;
+  margin-left: 5%; */
+}
+
+.comment-by {
+  font-size: 12px;
+  font-family: inherit;
+  background: lightgoldenrodyellow;
+  color: gray
+}
+
+.comment-info {
+  background: lightgoldenrodyellow;
+  display: flex;
+  /* justify-content: center; */
+  font-family: inherit;
+  /* width: 50%; */
+  /* margin-left: 10%; */
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.comments-number, .story-comment {
+  margin-left: 5px;
+  color: gray;
+  cursor: pointer;
+}
+
+.points-info {
+  color: gray;
+  /* cursor: pointer; */
+}
+
+.time-info, .author-info {
+  margin-left: 5px;
+  color: gray;
+}
+
+.comment-container, .story-div {
+  margin-right: 50px;
+  margin-left: 50px;
+  background: lightgoldenrodyellow;
+}
+
+.comment-text {
+  /* box-shadow: 0 0 0 1px rgba(63, 63, 68, 0.05), 0 1px 3px 0 rgba(63, 63, 68, 0.15);
+  border: 1px solid lightgray; */
+}
+
+.story-comment:hover , .comments-number:hover {
+  text-decoration: underline;
+}
+
+.story-title {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.story-info {
+  display: flex;
+  /* justify-content: center; */
+  font-size: 11px;
+}
+
+.arrow-icon {
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+}
+
+.loading {
+  text-align: center;
+  color: gray;
+  margin-top: -5px;
+  margin-bottom: 0;
+  height: 34px;
+  background: lightgoldenrodyellow;
+  font-size: 25px;
+
+  margin-right: 50px;
+  margin-left: 50px;
+  height: 50px;
+}
+
+.nav-bar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+}
+
+.first-story {
+  margin-top: 76px; 
+}
+
+.story-notification {
+  height: 100vh;
+  background: lightgoldenrodyellow;
+  width: 94%;
+  margin-left: 3%;
+}
+
+.notification-number {
+  font-size: 16px;
+  position: fixed;
+  padding-left: 4px;
+  padding-top: 0px;
+  left: 432px;
+  background: red;
+  color: white;
+  border-radius: 50%;
+  width: 22px;
+  height: 24px;
+  top: 3px;
 }
