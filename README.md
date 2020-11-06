@@ -13,13 +13,10 @@ This project was built using create-react-app js and firebase as BaaS.
 
 npm install
 
+
 ## Run app
 
 npm start
-
-## Run tests
-
-npm run test
 
 
 ## Dependencies
