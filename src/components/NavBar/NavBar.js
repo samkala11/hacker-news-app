@@ -4,31 +4,11 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';  
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
 import Story from '../Story';
 import { getUpdatedStories, getStory } from '../../utils/stories_api_util';
 
 
-if (!firebase.apps.length) {
-
-    firebase.initializeApp({
-      apiKey: "AIzaSyAX1uTdQTvuj2NJIfPnxzr76smlBL6IlLU",
-      authDomain: "project-sam5.firebaseapp.com",
-      databaseURL: "https://project-sam5.firebaseio.com",
-      projectId: "project-sam5",
-      storageBucket: "project-sam5.appspot.com",
-      messagingSenderId: "485971260822",
-      appId: "1:485971260822:web:7c53421f33a09778a619b7",
-      measurementId: "G-L47W9F94F1"
-    });
-  }
-
-const firestore = firebase.firestore();
-
-
-const NavBar = () => {
+const NavBar = ({firestore}) => {
 
     const [value, setValue] = React.useState(0);
     const history = useHistory();
@@ -82,7 +62,7 @@ const NavBar = () => {
         let  currentHref = window.location.href
         if (currentHref.substr(currentHref.length - 1) === '/') {
             return;
-        } else if (currentHref.substr(currentHref.length - 9) === '/listings') {
+        } else if (currentHref.substr(currentHref.length - 10 ) === '/old-posts') {
             setValue(1)
         }
 
@@ -104,7 +84,7 @@ const NavBar = () => {
             }
         } else if (newValue === 1) {
             console.log('going to old stories page ');
-            history.push('/old-stories');
+            history.push('/old-posts');
             if (showPost) {
                 setShowPost(false)
             }
@@ -117,72 +97,50 @@ const NavBar = () => {
 
     const checkForUpdates = () => {
 
-            bookmarkedPostIdsQuery.get().then( snapshot => {
-                const currentBookmarkedPostIds = [];
-                console.log(`snapshot docs of bookmarked posts is ${snapshot.docs}`)
-    
-                console.log(snapshot.docs)
-                snapshot.docs.forEach( (doc, ind) => {
-                    currentBookmarkedPostIds.push(doc.data().postId);
-                });
+        const bookmarkedPostIdsQuery2 = bookmarkedPostIdsRef.where("hackerNewsUserId", "==", localStorage.getItem('hackerNewsUserId')).orderBy('createdAt').limit(25) 
 
-                getUpdatedStories().then(data => {
-                    console.log('data of updated stories from hackernews api');
-                    console.log(data.items);
+        bookmarkedPostIdsQuery2.get().then( snapshot => {
+            const currentBookmarkedPostIds = [];
+            console.log(`snapshot docs of bookmarked posts is ${snapshot.docs}`)
 
-                    console.log('closure on bookmarked snapshot from previous firestore bookmarked api call');
-                    console.log(currentBookmarkedPostIds)
+            console.log(snapshot.docs)
+            snapshot.docs.forEach( (doc, ind) => {
+                currentBookmarkedPostIds.push(doc.data().postId);
+            });
 
-                    const updatedAndBookmarkedArr = []
+            getUpdatedStories().then(data => {
+                console.log('data of updated stories from hackernews api');
+                console.log(data.items);
 
-                    currentBookmarkedPostIds.forEach( (bookmarkedPostId) => {
+                console.log('closure on bookmarked snapshot from previous firestore bookmarked api call');
+                console.log(currentBookmarkedPostIds)
 
-                        if (data.items.includes(bookmarkedPostId)) { 
-                            console.log(`bookmarked post id is ${bookmarkedPostId} and it is updated`)
-                            updatedAndBookmarkedArr.push(bookmarkedPostId);
-                            setUpdatedPostNumbers(prevCount => prevCount + 1);
-                        } else {
-                            console.log(`bookmarked post id is ${bookmarkedPostId} and it is NOT updated`)
-                        }
+                const updatedAndBookmarkedArr = []
 
-                    })
+                currentBookmarkedPostIds.forEach( (bookmarkedPostId) => {
 
-                    localStorage.setItem('updatedAndBookmarked', JSON.stringify(updatedAndBookmarkedArr));
+                    if (data.items.includes(bookmarkedPostId)) { 
+                        console.log(`bookmarked post id is ${bookmarkedPostId} and it is updated`)
+                        updatedAndBookmarkedArr.push(bookmarkedPostId);
+                        setUpdatedPostNumbers(prevCount => prevCount + 1);
+                    } else {
+                        console.log(`bookmarked post id is ${bookmarkedPostId} and it is NOT updated`)
+                    }
 
-                    
-
-                    const concated = updatedAndBookmarkedArr.concat(updatedAndBookmarked);
-                    console.log('concateddd previous updatedAndBookmarked in state')
-
-                    console.log(updatedAndBookmarked)
-                    setUpdatedAndBookmarked(concated);
                 })
+
+                localStorage.setItem('updatedAndBookmarked', JSON.stringify(updatedAndBookmarkedArr));
+
+                
+
+                const updatedArr = updatedAndBookmarkedArr.concat(updatedAndBookmarked);
+                // console.log('updatedArr previous updatedAndBookmarked in state')
+
+                console.log(updatedAndBookmarked)
+                setUpdatedAndBookmarked(updatedArr);
+            })
     
             })
-
-            // const updatedAndBookmarkedArr = updatedAndBookmarked;
-        //     const updatedAndBookmarkedArr = [];
-
-        //     console.log('current user bookmarked posts in state is:')
-        //     console.log(currentUserBookmarkedPosts);
-
-        //     currentUserBookmarkedPosts.forEach( bookmarkedPostId => {
-        //         // if bookmarked post is updated
-        //         console.log('updated data.items from hacker news api');
-        //         console.log(data.items);
-
-        //         if (data.items.includes(bookmarkedPostId)) { 
-        //             console.log(`bookmarked post id is ${bookmarkedPostId} and it is updated`)
-        //             updatedAndBookmarkedArr.push(bookmarkedPostId);
-        //             setUpdatedPostNumbers(prevCount => prevCount + 1);
-        //         } else {
-        //             console.log(`bookmarked post id is ${bookmarkedPostId} and it is NOT updated`)
-
-        //         }
-        //     })
-        //     setUpdatedAndBookmarked(updatedAndBookmarkedArr);
-
-        // })
     }
 
 
@@ -199,19 +157,23 @@ const NavBar = () => {
                     aria-label="disabled tabs example"
                 >
                     <Tab data-testid='home-tab' label="Home" />
-                    <Tab data-testid='listings-tab' label="Seen Posts" />
+                    <Tab data-testid='listings-tab' label="Previous Posts" />
                     <Tab data-testid='saved-listings-tab' label="Updates" />
-                    <div className="notification-number"> {updatedPostNumbers} </div>
+                    <div 
+                        // className="notification-number"
+                        className = {classNames('notification-number', { 'notification-number-2': updatedPostNumbers >= 100})}
+ 
+                        > {updatedPostNumbers} </div>
                     
 
                     {/* <button onClick={addNewUpdatedPosts}> add new updated post</button> */}
                 </Tabs>
             </Paper>
 
-            { showPost && <div className="updated-posts-containers">
+            { showPost && <div className="updated-posts-container">
             
              {updatedAndBookmarked.map((storyId, index) => ( <div key={index} 
-                      className = {classNames('story-div', { 'first-story': false})}
+                      className = {classNames('story-div story-div-updated', { 'first-story': false})}
                     >
                     <Story 
                         storyId={storyId}

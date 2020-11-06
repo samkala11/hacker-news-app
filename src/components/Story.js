@@ -6,6 +6,8 @@ import { convertTime } from '../utils/time';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
+import BookmarkIcon from '@material-ui/icons/Bookmark';
 
 
 if (!firebase.apps.length) {
@@ -25,7 +27,7 @@ if (!firebase.apps.length) {
 const firestore = firebase.firestore();
 
 
-const Story = ({storyId, storyIndex, className, bookmarked, callBack}) => {
+const Story = ({storyId, storyIndex, className, bookmarked, callBack, showBookmark }) => {
 
     const [storyInfo, setStoryInfo] = useState({});
     const [showComments, setShowComments] = useState(false);
@@ -41,6 +43,7 @@ const Story = ({storyId, storyIndex, className, bookmarked, callBack}) => {
         .then(() => { 
             console.log('new bookmarked post was addedd successfully');
             callBack();
+            // window.location.reload();
         })
         .catch((e) =>{
 
@@ -67,42 +70,25 @@ const Story = ({storyId, storyIndex, className, bookmarked, callBack}) => {
         setShowComments(!showComments)
     }
 
-    // const saveToLocalStorage = () => {
-    //     const bookmarkedIds = localStorage.getItem('storyId');
-    //     let bookmarkedArr = []
-    //     if (bookmarkedIds) {
-    //         bookmarkedArr = JSON.parse(bookmarkedIds);
-    //         console.log('bookmarkedArr')
-    //         console.log(bookmarkedArr)
-
-    //         window.bookmarkedArr = bookmarkedArr;
-    //     }
-    //     localStorage.setItem('storyId', JSON.stringify([ ...bookmarkedArr, storyId]))
-    // }
-
-    // const bookmarkPost = () => {
-
-    // }
-
     return(
         <div className={className}>
-            {/* {JSON.stringify(storyInfo)  } */}
 
             <span> { getStoryNumber()}.</span>
-
             <a  className="story-title" href={storyInfo.url}> { `${storyInfo.title}` } </a>
-            
-           { bookmarked ?
-            <button disabled> Bookmarked </button> 
-            :
-            <button onClick={bookmarkPost}> Bookmark </button> 
-             }
+            {showBookmark && <span>
+
+                { bookmarked ?
+                    <button className="bookmark-button" disabled> <BookmarkIcon/> </button> 
+                    :
+                    <button className="bookmark-button" onClick={bookmarkPost}> <BookmarkBorderIcon/> </button> 
+                }
+            </span>}
             
             <div className="story-info">  
                 <div className="points-info"> {storyInfo.score} points </div>
-                <div  className="author-info"> by: {storyInfo.by} </div>
+                <div className="author-info"> by: {storyInfo.by} </div>
                 <div className="time-info"> {convertTime(storyInfo.time)} ago</div>
-                <div  className="story-comment" onClick={handleShowComments}> {storyInfo.descendants} comments </div>
+                <div className="story-comment" onClick={handleShowComments}> {storyInfo.descendants} comments </div>
             </div>
 
             {showComments && storyInfo.kids && <CommentsContainer commentIds={storyInfo.kids} level={0}/> }

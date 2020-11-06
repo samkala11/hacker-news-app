@@ -45,7 +45,7 @@
 }
 
 .comment-text {
-  background: lightgoldenrodyellow;
+  background: rgb(234, 238, 231);
   font-size: 12px;
   font-family: inherit;
   /* width: 90%;
@@ -55,12 +55,12 @@
 .comment-by {
   font-size: 12px;
   font-family: inherit;
-  background: lightgoldenrodyellow;
+  background: rgb(234, 238, 231);
   color: gray
 }
 
 .comment-info {
-  background: lightgoldenrodyellow;
+  background: rgb(234, 238, 231);
   display: flex;
   /* justify-content: center; */
   font-family: inherit;
@@ -89,7 +89,9 @@
 .comment-container, .story-div {
   margin-right: 50px;
   margin-left: 50px;
-  background: lightgoldenrodyellow;
+  background: rgb(234, 238, 231);
+  box-shadow: 0 0 0 1px rgba(213, 235, 218, 0.05), 0 1px 3px 0 rgba(63, 63, 68, 0.15);
+  /* border-right: 1px solid gray; */
 }
 
 .comment-text {
@@ -125,12 +127,12 @@
   margin-top: 0px;
   margin-bottom: 0;
   height: 34px;
-  background: lightgoldenrodyellow;
+  background: rgb(234, 238, 231);
   font-size: 25px;
   margin-right: 50px;
   margin-left: 50px;
   height: 70px;
-  border: 1px solid lightgoldenrodyellow;
+  border: 1px solid rgb(234, 238, 231);
 }
 
 .nav-bar {
@@ -153,7 +155,7 @@
 .notification-number {
   font-size: 16px;
   position: fixed;
-  padding-left: 4px;
+  /* padding-left: 4px; */
   padding-top: 0px;
   left: 432px;
   background: red;
@@ -162,4 +164,45 @@
   width: 22px;
   height: 24px;
   top: 3px;
+  text-align: center;
+}
+
+.bookmark-button {
+  border: none;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+}
+
+
+.bookmark-button:active {
+  border: transparent;
+  background: transparent;
+  outline: none;
+}
+
+.updated-posts-container {
+  height: 95vh;
+  background: rgb(234, 238, 231);
+  /* margin-top: 28px; */
+}
+
+.story-div-updated {
+  box-shadow: none;
+}
+
+.error-page-title,.no-old-posts-message {
+  margin-top: 70px;
+  text-align: center;
+}
+
+
+.notification-number-2 {
+  padding-top: 3px;
+  width: 32px;
+  height: 27px;
+}
+
+.post-container {
+  margin-left: 10px;
 }

@@ -3,48 +3,24 @@ import Story from '../Story';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {getTopStories} from '../../utils/stories_api_util';
 import classNames from 'classnames';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
 import Skeleton from '@material-ui/lab/Skeleton';
 
-if (!firebase.apps.length) {
 
-  firebase.initializeApp({
-    apiKey: "AIzaSyAX1uTdQTvuj2NJIfPnxzr76smlBL6IlLU",
-    authDomain: "project-sam5.firebaseapp.com",
-    databaseURL: "https://project-sam5.firebaseio.com",
-    projectId: "project-sam5",
-    storageBucket: "project-sam5.appspot.com",
-    messagingSenderId: "485971260822",
-    appId: "1:485971260822:web:7c53421f33a09778a619b7",
-    measurementId: "G-L47W9F94F1"
-  });
-}
-
-const firestore = firebase.firestore();
-
-function Stories() {
+function Posts({firestore}) {
 
   const STORIES_COUNT_INCREMENT = 20;
   const MAX_STORIES_COUNT = 400;
 
   const [storiesCount, setStoriesCount] = useState(STORIES_COUNT_INCREMENT);
 
-  window.storiesCountState = storiesCount;
-
   const [currentStories, setCurrentStories] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const oldStoriesCount = localStorage.getItem('oldStories');
-  window.oldStoriesCount = oldStoriesCount;
-  window.currentStories = currentStories;
 
   const [hideOldPosts, setHideOldPosts] = useState(false);
   const [currentStartingPoint, setCurrentStartingPoint] = useState( oldStoriesCount ? parseInt(oldStoriesCount) : 0 );
-  window.currentStartingPoint = currentStartingPoint;
-
-
+  
 
   const bookmarkedPostIdsRef = firestore.collection('bookmarkedPostIds');
   const bookmarkedPostIdsQuery = bookmarkedPostIdsRef.where("hackerNewsUserId", "==", localStorage.getItem('hackerNewsUserId')).orderBy('createdAt').limit(25) 
@@ -59,19 +35,11 @@ function Stories() {
 
     bookmarkedPostIdsQuery.get().then( snapshot => {
         const currentBookmarkedPostIds = [];
-        // const docIds = {};
-        console.log(snapshot.docs)
+        // console.log(snapshot.docs)
         snapshot.docs.forEach( (doc, ind) => {
-
-            currentBookmarkedPostIds.push(doc.data().postId);
-
-            console.log('got docs from snapshot from stories container, showing  bookmarked ones!!')
-            console.log(doc.data())
-
+          currentBookmarkedPostIds.push(doc.data().postId);
         })
 
-        console.log('currentBookmarkedPostIds');
-        console.log(currentBookmarkedPostIds)
         setCurrentUserBookmarkedPosts(currentBookmarkedPostIds);
     })
 }
@@ -86,10 +54,7 @@ function Stories() {
   }, [storiesCount])
 
   useEffect(() => {
-
     getBookmarkedPosts();
-
-
     window.addEventListener('scroll', handleScroll);
       
     if (oldStoriesCount) {
@@ -163,6 +128,8 @@ function Stories() {
           storyIndex = {index}
           bookmarked={currentUserBookmarkedPosts.includes(storyId)}
           callBack = {getBookmarkedPosts}
+          showBookmark = {true}
+          className="post-container"
         />
         </div> 
       ))  
@@ -176,6 +143,8 @@ function Stories() {
             storyIndex = {index}
             bookmarked={currentUserBookmarkedPosts.includes(storyId)}
             callBack = {getBookmarkedPosts}
+            showBookmark = {true}
+            className="post-container"
             />
         </div> )) }
 
@@ -187,4 +156,4 @@ function Stories() {
   );
 }
 
-export default Stories;
+export default Posts;
