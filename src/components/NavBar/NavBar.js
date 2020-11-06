@@ -16,11 +16,9 @@ const NavBar = ({firestore}) => {
     // show notification numbers
     const [updatedPostNumbers, setUpdatedPostNumbers] = useState(0);
     const [updatedAndBookmarked, setUpdatedAndBookmarked] = useState([]);
-    window.updatedAndBookmarkedNAVBAR = updatedAndBookmarked;
 
     const [showPost, setShowPost] = useState(false);
     const [ currentUserBookmarkedPosts, setCurrentUserBookmarkedPosts ] = useState([]);
-    window.currentUserBookmarkedPostsNAVBAR = currentUserBookmarkedPosts;
 
     const bookmarkedPostIdsRef = firestore.collection('bookmarkedPostIds');
     const bookmarkedPostIdsQuery = bookmarkedPostIdsRef.where("hackerNewsUserId", "==", localStorage.getItem('hackerNewsUserId')).orderBy('createdAt').limit(25) 
@@ -47,17 +45,11 @@ const NavBar = ({firestore}) => {
 
     useEffect(() => {
         getBookmarkedPosts();
-
         // check for updates each 15 seconds
         const timer = setInterval(() => { 
             // getBookmarkedPosts();
             checkForUpdates();
          },15000)
-
-        
-        // const timer2 = setInterval(() => {
-        //     getBookmarkedPosts();
-        // }, 5000)
         
         let  currentHref = window.location.href
         if (currentHref.substr(currentHref.length - 1) === '/') {
@@ -68,7 +60,6 @@ const NavBar = ({firestore}) => {
 
         return () => { 
             clearInterval(timer) ; 
-            // clearInterval(timer2) ; 
         }
     }, [])
 
@@ -101,22 +92,12 @@ const NavBar = ({firestore}) => {
 
         bookmarkedPostIdsQuery2.get().then( snapshot => {
             const currentBookmarkedPostIds = [];
-            console.log(`snapshot docs of bookmarked posts is ${snapshot.docs}`)
-
-            console.log(snapshot.docs)
             snapshot.docs.forEach( (doc, ind) => {
                 currentBookmarkedPostIds.push(doc.data().postId);
             });
 
             getUpdatedStories().then(data => {
-                console.log('data of updated stories from hackernews api');
-                console.log(data.items);
-
-                console.log('closure on bookmarked snapshot from previous firestore bookmarked api call');
-                console.log(currentBookmarkedPostIds)
-
                 const updatedAndBookmarkedArr = []
-
                 currentBookmarkedPostIds.forEach( (bookmarkedPostId) => {
 
                     if (data.items.includes(bookmarkedPostId)) { 
@@ -128,13 +109,8 @@ const NavBar = ({firestore}) => {
                     }
 
                 })
-
-                localStorage.setItem('updatedAndBookmarked', JSON.stringify(updatedAndBookmarkedArr));
-
-                
-
                 const updatedArr = updatedAndBookmarkedArr.concat(updatedAndBookmarked);
-                // console.log('updatedArr previous updatedAndBookmarked in state')
+                console.log('updatedArr plus current ones in state')
 
                 console.log(updatedAndBookmarked)
                 setUpdatedAndBookmarked(updatedArr);
@@ -142,9 +118,6 @@ const NavBar = ({firestore}) => {
     
             })
     }
-
-
-
 
     return (
         <div data-testid='nav-bar' className="nav-bar">
@@ -159,14 +132,8 @@ const NavBar = ({firestore}) => {
                     <Tab data-testid='home-tab' label="Home" />
                     <Tab data-testid='listings-tab' label="Previous Posts" />
                     <Tab data-testid='saved-listings-tab' label="Updates" />
-                    <div 
-                        // className="notification-number"
-                        className = {classNames('notification-number', { 'notification-number-2': updatedPostNumbers >= 100})}
- 
-                        > {updatedPostNumbers} </div>
-                    
-
-                    {/* <button onClick={addNewUpdatedPosts}> add new updated post</button> */}
+                    <div className = {classNames('notification-number', { 'notification-number-2': updatedPostNumbers >= 100})}
+                    > {updatedPostNumbers} </div>
                 </Tabs>
             </Paper>
 
@@ -184,8 +151,6 @@ const NavBar = ({firestore}) => {
             </div>
             
              }
-            {/* <Story className="story-notification" storyId={24992517} /> */}
-
         </div>
     ) 
 }
