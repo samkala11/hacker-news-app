@@ -86,38 +86,41 @@ const NavBar = ({firestore}) => {
         }
     };
 
-    const checkForUpdates = () => {
 
-        const bookmarkedPostIdsQuery2 = bookmarkedPostIdsRef.where("hackerNewsUserId", "==", localStorage.getItem('hackerNewsUserId')).orderBy('createdAt').limit(25) 
+        const checkForUpdates = async () => {
 
-        bookmarkedPostIdsQuery2.get().then( snapshot => {
+            const bookmarkedPostIdsQuery2 = bookmarkedPostIdsRef.where("hackerNewsUserId", "==", localStorage.getItem('hackerNewsUserId')).orderBy('createdAt').limit(25) 
+    
+            const bookMarkedSnapshot = await bookmarkedPostIdsQuery2.get()
+
             const currentBookmarkedPostIds = [];
-            snapshot.docs.forEach( (doc, ind) => {
+            bookMarkedSnapshot.docs.forEach( (doc, ind) => {
                 currentBookmarkedPostIds.push(doc.data().postId);
             });
+            
+            const updatedPostsData = await getUpdatedStories()
 
-            getUpdatedStories().then(data => {
-                const updatedAndBookmarkedArr = []
-                currentBookmarkedPostIds.forEach( (bookmarkedPostId) => {
+            const updatedAndBookmarkedArr = []
+            currentBookmarkedPostIds.forEach( (bookmarkedPostId) => {
 
-                    if (data.items.includes(bookmarkedPostId)) { 
-                        console.log(`bookmarked post id is ${bookmarkedPostId} and it is updated`)
-                        updatedAndBookmarkedArr.push(bookmarkedPostId);
-                        setUpdatedPostNumbers(prevCount => prevCount + 1);
-                    } else {
-                        console.log(`bookmarked post id is ${bookmarkedPostId} and it is NOT updated`)
-                    }
+                if (updatedPostsData.items.includes(bookmarkedPostId)) { 
 
-                })
-                const updatedArr = updatedAndBookmarkedArr.concat(updatedAndBookmarked);
-                console.log('updatedArr plus current ones in state')
+                    console.log(`bookmarked post id is ${bookmarkedPostId} and it is updated`);
+                    updatedAndBookmarkedArr.push(bookmarkedPostId);
+                    setUpdatedPostNumbers(prevCount => prevCount + 1);
 
-                console.log(updatedAndBookmarked)
-                setUpdatedAndBookmarked(updatedArr);
+                } else {
+
+                    console.log(`bookmarked post id is ${bookmarkedPostId} and it is not updated`);
+
+                }
             })
-    
-            })
-    }
+            const updatedArr = updatedAndBookmarkedArr.concat(updatedAndBookmarked);
+            console.log('updatedArr plus current ones in state')
+
+            console.log(updatedAndBookmarked)
+            setUpdatedAndBookmarked(updatedArr);  
+        }
 
     return (
         <div data-testid='nav-bar' className="nav-bar">
