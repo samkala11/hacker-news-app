@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import arrow from '../arrow.png';
+import arrow from '../../arrow.png';
 
-import {getStory} from '../utils/stories_api_util';
+import {getStory} from '../../utils/stories_api_util';
 import CommentsContainer from './CommentsContainer';
-import { convertTime } from '../utils/time';
+import { convertTime } from '../../utils/time';
 
 
 const Comment = ({commentId, level}) => {

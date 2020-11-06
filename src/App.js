@@ -2,12 +2,12 @@ import React , {useEffect, useState} from 'react';
 import { Route, Switch , BrowserRouter} from 'react-router-dom';
 import NavBar from './components/NavBar/NavBar';
 import Posts from './components/Posts/Posts';
-import OldStories from './components/OldStories/OldStories';
+import OldPosts from './components/OldPosts/OldPosts';
 import ErrorPage from './components/ErrorPage/ErrorPage';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
-import Story from './components/Story';
+import Story from './components/Posts/Post';
 
 import './App.css';
 
@@ -46,7 +46,7 @@ function App() {
           <Route exact path="/" component={() => <Posts firestore={firestore} /> }             
           />
 
-          <Route exact path="/old-posts" component={() => <OldStories firestore={firestore} /> }
+          <Route exact path="/old-posts" component={() => <OldPosts firestore={firestore} /> }
           />
 
           <Route component={ErrorPage} />

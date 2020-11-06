@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {getTopStories} from '../../utils/stories_api_util';
-import Story from '../Story';
+import Post from '../Posts/Post';
 import classNames from 'classnames';
 
 const OldStories = ({firestore}) => {
@@ -47,7 +47,7 @@ const OldStories = ({firestore}) => {
             <div key={storyId} 
                 className = {classNames('story-div', { 'first-story': index === 0})}
              >
-              <Story 
+              <Post 
                 storyId={storyId}
                 storyIndex = {index}
                 bookmarked={currentUserBookmarkedPosts.includes(storyId)}

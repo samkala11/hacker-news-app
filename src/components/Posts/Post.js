@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 
-import {getStory} from '../utils/stories_api_util';
-import CommentsContainer from './CommentsContainer';
-import { convertTime } from '../utils/time';
+import {getStory} from '../../utils/stories_api_util';
+import CommentsContainer from '../Comments/CommentsContainer';
+import { convertTime } from '../../utils/time';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';

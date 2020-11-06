@@ -4,7 +4,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';  
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
-import Story from '../Story';
+import Post from '../Posts/Post';
 import { getUpdatedStories, getStory } from '../../utils/stories_api_util';
 
 
@@ -131,7 +131,7 @@ const NavBar = ({firestore}) => {
                 >
                     <Tab data-testid='home-tab' label="Home" />
                     <Tab data-testid='listings-tab' label="Previous Posts" />
-                    <Tab data-testid='saved-listings-tab' label="Updates" />
+                    <Tab data-testid='saved-listings-tab' label="Updated" />
                     <div className = {classNames('notification-number', { 'notification-number-2': updatedPostNumbers >= 100})}
                     > {updatedPostNumbers} </div>
                 </Tabs>
@@ -142,7 +142,7 @@ const NavBar = ({firestore}) => {
              {updatedAndBookmarked.map((storyId, index) => ( <div key={index} 
                       className = {classNames('story-div story-div-updated', { 'first-story': false})}
                     >
-                    <Story 
+                    <Post 
                         storyId={storyId}
                         storyIndex = {index}
                         />

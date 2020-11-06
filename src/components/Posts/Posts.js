@@ -1,5 +1,5 @@
 import React , {useEffect, useState} from 'react';
-import Story from '../Story';
+import Post from './Post';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {getTopStories} from '../../utils/stories_api_util';
 import classNames from 'classnames';
@@ -123,7 +123,7 @@ function Posts({firestore}) {
         <div key={storyId} 
         className = {classNames('story-div', 'updated-count', { 'first-story': index === 0})}
         >
-        <Story 
+        <Post 
           storyId={storyId}
           storyIndex = {index}
           bookmarked={currentUserBookmarkedPosts.includes(storyId)}
@@ -138,7 +138,7 @@ function Posts({firestore}) {
         <div key={storyId} 
           className = {classNames('story-div', { 'first-story': index === 0})}
           >
-          <Story 
+          <Post 
             storyId={storyId}
             storyIndex = {index}
             bookmarked={currentUserBookmarkedPosts.includes(storyId)}
