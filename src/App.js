@@ -11,6 +11,13 @@ import './App.css';
 
 function App() {
 
+
+  useEffect(() => {
+    if (!localStorage.getItem('hackerNewsUserId')) {
+      localStorage.setItem('hackerNewsUserId', Math.random().toString(36).substr(2, 10));
+    }
+  }, [])
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -19,9 +26,9 @@ function App() {
         
           <Route exact path="/" component={Stories} />
           <Route exact path="/old-stories" component={OldStories} />
-          <Route exact path="/story-notification" 
+          {/* <Route exact path="/story-notification" 
             component={() => <Story storyId={24992517} />}
-          />
+          /> */}
           <Route component={ErrorPage} />
 
 

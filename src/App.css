@@ -122,15 +122,15 @@
 .loading {
   text-align: center;
   color: gray;
-  margin-top: -5px;
+  margin-top: 0px;
   margin-bottom: 0;
   height: 34px;
   background: lightgoldenrodyellow;
   font-size: 25px;
-
   margin-right: 50px;
   margin-left: 50px;
-  height: 50px;
+  height: 70px;
+  border: 1px solid lightgoldenrodyellow;
 }
 
 .nav-bar {
