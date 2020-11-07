@@ -3,21 +3,11 @@
     color: gray;
     margin-top: 0px;
     margin-bottom: 0;
-    height: 56px;
+    height: 34px;
     background: rgb(234, 238, 231);
     font-size: 25px;
     margin-right: 50px;
     margin-left: 50px;
     height: 70px;
     border: 1px solid rgb(234, 238, 231);
-    box-shadow: 0 0 0 1px rgba(213, 235, 218, 0.05), 0 1px 3px 0 rgba(63, 63, 68, 0.15);
-}
-
-.no-old-posts-message, .no-posts-message {
-    margin-top: 70px;
-    text-align: center;
-}
-
-.loading-container {
-    margin-top: 70px;
 }

@@ -4,6 +4,7 @@ import {getTopStories} from '../../utils/stories_api_util';
 import classNames from 'classnames';
 import Skeleton from '@material-ui/lab/Skeleton';
 import '../../styles/Posts/PostsDisplay.css';
+import Loading from '../Loading/Loading';
 
 
 function PostsDisplay({firestore, type}) {
@@ -26,7 +27,8 @@ function PostsDisplay({firestore, type}) {
     const [hideOldPosts, setHideOldPosts] = useState(false);
     const [currentStartingPoint, setCurrentStartingPoint] = useState( oldStoriesCount ? parseInt(oldStoriesCount) : 0 );
   
-
+    const [showNoPostsMessage, setShowNoPostsMessage] = useState(false);
+    const [showLoading, setShowLoading] = useState(true);
 
 
   window.currentUserBookmarkedPosts = currentUserBookmarkedPosts;
@@ -35,7 +37,8 @@ function PostsDisplay({firestore, type}) {
 
     console.log('getting updated post ids from firestore inside stories')
 
-    bookmarkedPostIdsQuery.get().then( snapshot => {
+    bookmarkedPostIdsQuery.get()
+      .then( snapshot => {
         const currentBookmarkedPostIds = [];
         // console.log(snapshot.docs)
         snapshot.docs.forEach( (doc, ind) => {
@@ -43,14 +46,25 @@ function PostsDisplay({firestore, type}) {
         })
 
         setCurrentUserBookmarkedPosts(currentBookmarkedPostIds);
-    })
+        console.log('loading bookmarked posts')
+      })
+      .catch(() => {
+        console.log('cannot load bookmared posts');
+      })
 }
 
 
   useEffect(() => {
-    getTopStories().then(data => {
+    getTopStories()
+    .then(data => {
       setCurrentStories(data);
+      setShowLoading(false);
       console.log(data)
+    })
+    .catch((e) => {
+      // setstate no posts to show
+      setShowNoPostsMessage(true)
+      console.log(e)
     })
 
   }, [storiesCount])
@@ -127,30 +141,44 @@ function PostsDisplay({firestore, type}) {
         {  type !== 'oldPosts'  
             ?
         <div className="all-posts"> 
+            { showNoPostsMessage && <div className="no-posts-message"> No posts to show</div>}
 
-            { oldStoriesCount && hideOldPosts ? currentStories.slice(currentStartingPoint, (storiesCount + parseInt(oldStoriesCount))).map((storyId, index) => (
-                <div key={index}>
-                    <Post 
-                        storyId={storyId}
-                        storyIndex = {index}
-                        bookmarked={currentUserBookmarkedPosts.includes(storyId)}
-                        callBack = {getBookmarkedPosts}
-                        showBookmark = {true}
-                        className = {classNames('post-container', 'post-div', 'updated-count', { 'first-post': index === 0})}
-                    />
-                </div> ))  
-                : 
-            currentStories.slice(0, storiesCount).map((storyId, index) => (
-                <div key={index}>
-                    <Post 
-                        storyId={storyId}
-                        storyIndex = {index}
-                        bookmarked={currentUserBookmarkedPosts.includes(storyId)}
-                        callBack = {getBookmarkedPosts}
-                        showBookmark = {true}
-                        className={classNames( 'post-container', 'post-div', { 'first-post': index === 0})}
-                    />
-                </div> )) }
+            { oldStoriesCount && hideOldPosts 
+              ?
+             <> 
+                {!showLoading ? currentStories.slice(currentStartingPoint, (storiesCount + parseInt(oldStoriesCount))).map((storyId, index) => (
+                  <div key={index}>
+                      <Post 
+                          storyId={storyId}
+                          storyIndex = {index}
+                          bookmarked={currentUserBookmarkedPosts.includes(storyId)}
+                          callBack = {getBookmarkedPosts}
+                          showBookmark = {true}
+                          className = {classNames('post-container', 'post-div', 'updated-count', { 'first-post': index === 0})}
+                      />
+                  </div> ))  
+                  :
+                  <div className="loading-container"> <Loading/> </div>
+                }
+              </>
+              : 
+              <>
+                {!showLoading 
+                  ? 
+                currentStories.slice(0, storiesCount).map((storyId, index) => (
+                  <div key={index}>
+                      <Post 
+                          storyId={storyId}
+                          storyIndex = {index}
+                          bookmarked={currentUserBookmarkedPosts.includes(storyId)}
+                          callBack = {getBookmarkedPosts}
+                          showBookmark = {true}
+                          className={classNames( 'post-container', 'post-div', { 'first-post': index === 0})}
+                      />
+                  </div> ))
+                  :
+                  <div className="loading-container"> <Loading/> </div> }
+              </> }
 
             { loading && <div className="loading">
                 <Skeleton variant="text" />
@@ -158,14 +186,12 @@ function PostsDisplay({firestore, type}) {
             </div> }
         
         </div>  
-        
-            : 
-
+          : 
         <div className="old-posts"> 
 
           { !oldStoriesCount && <div className="no-old-posts-message"> No previous posts </div>  }
 
-          { currentStories.slice(0, oldStoriesCount).map((storyId, index) => (    
+          { !showLoading  ? currentStories.slice(0, oldStoriesCount).map((storyId, index) => (    
             <div key={index}>
                 <Post 
                 storyId={storyId}
@@ -176,7 +202,10 @@ function PostsDisplay({firestore, type}) {
                 className={classNames( 'post-container', 'post-div', { 'first-post': index === 0})}
                 />
             </div> 
-              )) } 
+              )) 
+              :
+              <div className="loading-container"> <Loading/> </div> 
+              } 
             
         </div> }
     </>
