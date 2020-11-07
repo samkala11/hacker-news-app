@@ -8,6 +8,7 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
+import '../../styles/Posts/Post.css';
 
 
 if (!firebase.apps.length) {
@@ -74,7 +75,7 @@ const Story = ({storyId, storyIndex, className, bookmarked, callBack, showBookma
         <div className={className}>
 
             <span> { getStoryNumber()}.</span>
-            <a  className="story-title" href={storyInfo.url}> { `${storyInfo.title}` } </a>
+            <a  className="post-title" href={storyInfo.url}> { `${storyInfo.title}` } </a>
             {showBookmark && <span>
 
                 { bookmarked ?
@@ -84,11 +85,11 @@ const Story = ({storyId, storyIndex, className, bookmarked, callBack, showBookma
                 }
             </span>}
             
-            <div className="story-info">  
+            <div className="post-info">  
                 <div className="points-info"> {storyInfo.score} points </div>
                 <div className="author-info"> by: {storyInfo.by} </div>
                 <div className="time-info"> {convertTime(storyInfo.time)} ago</div>
-                <div className="story-comment" onClick={handleShowComments}> {storyInfo.descendants} comments </div>
+                <div className="post-comments" onClick={handleShowComments}> {storyInfo.descendants} comments </div>
             </div>
 
             {showComments && storyInfo.kids && <CommentsContainer commentIds={storyInfo.kids} level={0}/> }

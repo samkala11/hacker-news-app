@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import Post from '../Posts/Post';
 import { getUpdatedStories, getStory } from '../../utils/stories_api_util';
-
+import '../../styles/NavBar/NavBar.css';
 
 const NavBar = ({firestore}) => {
 
@@ -142,14 +142,14 @@ const NavBar = ({firestore}) => {
 
             { showPost && <div className="updated-posts-container">
             
-             {updatedAndBookmarked.map((storyId, index) => ( <div key={index} 
-                      className = {classNames('story-div story-div-updated', { 'first-story': false})}
-                    >
+             {updatedAndBookmarked.map((storyId, index) => ( 
+                 <>
                     <Post 
                         storyId={storyId}
                         storyIndex = {index}
-                        />
-                    </div> )) 
+                        className = {classNames('post-div post-div-updated', { 'first-post': false})}
+                    />
+                </> )) 
              }
             </div>
             

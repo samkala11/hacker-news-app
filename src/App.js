@@ -1,8 +1,9 @@
 import React , {useEffect, useState} from 'react';
 import { Route, Switch , BrowserRouter} from 'react-router-dom';
 import NavBar from './components/NavBar/NavBar';
-import Posts from './components/Posts/Posts';
-import OldPosts from './components/OldPosts/OldPosts';
+// import Posts from './components/Posts/Posts';
+// import OldPosts from './components/OldPosts/OldPosts';
+import PostsDisplay from './components/Posts/PostsDisplay';
 import ErrorPage from './components/ErrorPage/ErrorPage';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -43,10 +44,10 @@ function App() {
         <NavBar firestore={firestore}/>
         <Switch>
         
-          <Route exact path="/" component={() => <Posts firestore={firestore} /> }             
+          <Route exact path="/" component={() => <PostsDisplay firestore={firestore} /> }             
           />
 
-          <Route exact path="/old-posts" component={() => <OldPosts firestore={firestore} /> }
+          <Route exact path="/old-posts" component={() => <PostsDisplay type="oldPosts" firestore={firestore} /> }
           />
 
           <Route component={ErrorPage} />

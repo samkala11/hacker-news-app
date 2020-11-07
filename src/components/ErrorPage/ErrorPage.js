@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../styles/ErrorPage/ErrorPage.css';
 
 const ErrorPage = () => {
     return (

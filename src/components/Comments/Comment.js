@@ -4,6 +4,7 @@ import arrow from '../../arrow.png';
 import {getStory} from '../../utils/stories_api_util';
 import CommentsContainer from './CommentsContainer';
 import { convertTime } from '../../utils/time';
+import '../../styles/Comments/Comment.css';
 
 
 const Comment = ({commentId, level}) => {
@@ -53,7 +54,7 @@ const Comment = ({commentId, level}) => {
                 
             </div>
 
-            <div className="comments-container">  
+            <div>  
                 {showComments && commentInfo.kids && <CommentsContainer 
 
                     commentIds={commentInfo.kids}

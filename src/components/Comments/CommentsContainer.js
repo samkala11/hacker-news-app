@@ -1,7 +1,6 @@
 import React from 'react';
-// import {getStory} from '../utils/stories_api_util';
-// import Story from './story';
 import Comment from './Comment';
+import '../../styles/Comments/CommetsContainer.css';
 
 
 const CommentsContainer = ({commentIds, level}) => {

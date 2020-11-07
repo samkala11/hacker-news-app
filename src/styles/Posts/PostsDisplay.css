@@ -1,0 +1,18 @@
+.loading {
+    text-align: center;
+    color: gray;
+    margin-top: 0px;
+    margin-bottom: 0;
+    height: 34px;
+    background: rgb(234, 238, 231);
+    font-size: 25px;
+    margin-right: 50px;
+    margin-left: 50px;
+    height: 70px;
+    border: 1px solid rgb(234, 238, 231);
+}
+
+.no-old-posts-message {
+    margin-top: 70px;
+    text-align: center;
+}

@@ -1,0 +1,29 @@
+.comment-by, .comment-text, .comment-info {
+  font-size: 12px;
+  font-family: inherit;
+  background: rgb(234, 238, 231);
+  color: gray
+}
+
+.comment-info {
+  display: flex;
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.comments-number {
+  margin-left: 5px;
+  color: gray;
+  cursor: pointer;
+}
+
+
+.arrow-icon {
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+}
+
+.comments-number:hover {
+  text-decoration: underline;
+}
