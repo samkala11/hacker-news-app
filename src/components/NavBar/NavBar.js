@@ -66,6 +66,8 @@ const NavBar = ({firestore}) => {
 
     const handleClick = (event, newValue) => {
       setValue(newValue);
+      let  currentHref = window.location.href;
+
 
         if (newValue === 0 ) {
             console.log('going to home ');
@@ -80,8 +82,11 @@ const NavBar = ({firestore}) => {
                 setShowPost(false)
             }
         } else if (newValue === 2) {
-            console.log('going to old stories page ');
-            history.push('/');
+            if (currentHref.substr(currentHref.length - 10 ) === '/old-posts') {
+                history.push('/old-posts');
+            } else {
+                history.push('/');
+            }
             setShowPost(!showPost)
         }
     };
