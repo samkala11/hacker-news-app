@@ -5,6 +5,10 @@
   color: gray
 }
 
+.comment-text {
+  color: black;
+}
+
 .comment-info {
   display: flex;
   font-size: 11px;
